@@ -16,7 +16,7 @@ app.post("/signup", async (req, res) => {
 });
 
 // find users with email
-app.get("/users", async (req, res) => {
+app.get("/user", async (req, res) => {
   try {
     const users = await User.find({ emailId: req.query.emailId });
     if (users.length > 0) {
@@ -40,6 +40,39 @@ app.get("/feed", async (req, res) => {
     }
   } catch (err) {
     res.status(500).send("Error fetching users");
+  }
+});
+
+// Delete user by Id
+
+app.delete("/user", async (req, res) => {
+  const userId = req.body.userId;
+  try {
+    const deleteUser = await User.findByIdAndDelete(userId);
+    if (deleteUser) {
+      res.send("User deleted successfully");
+    } else {
+      res.status(404).send("User not found");
+    }
+  } catch (err) {
+    res.status(500).send("Error deleting user");
+  }
+});
+
+// update data of user
+
+app.patch("/user", async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const UpdateData = req.body;
+    const updatedUser = await User.findByIdAndUpdate({_id : userId}, UpdateData);
+    if (updatedUser) {
+      res.send(updatedUser);
+    } else {
+      res.status(404).send("User not found");
+    }
+  } catch (err) {
+    console.log(err);
   }
 });
 
