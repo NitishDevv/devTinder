@@ -9,7 +9,6 @@ const app = express();
 // Middleware to parse JSON request bodies
 app.use(express.json());
 
-
 // Signup route
 app.post("/signup", async (req, res) => {
   try {
@@ -40,23 +39,22 @@ app.post("/signup", async (req, res) => {
 
 // Login route
 
-app.post("/login", async(req,res) => {
-    try {
-        const { emailId, password} = req.body;
-        const user = await User.findOne({ emailId: emailId});
-        if(!user){
-            throw new Error("Invalid Credentials");
-        }
-        const isPasswordValid = await bcrypt.comapare(password, user.password);
-        if(!isPasswordValid){
-            throw new Error("Invalid Credentials");
-        }
-        res.status(200).send("Login Successful");
-        
-    } catch (error) {
-        res.status(400).send("ERROR : " + error.message);
+app.post("/login", async (req, res) => {
+  try {
+    const { emailId, password } = req.body;
+    const user = await User.findOne({ emailId: emailId });
+    if (!user) {
+      throw new Error("Invalid Credentials");
     }
-})
+    const isPasswordValid = await bcrypt.comapare(password, user.password);
+    if (!isPasswordValid) {
+      throw new Error("Invalid Credentials");
+    }
+    res.status(200).send("Login Successful");
+  } catch (error) {
+    res.status(400).send("ERROR : " + error.message);
+  }
+});
 
 // find users with email
 app.get("/user", async (req, res) => {
