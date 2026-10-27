@@ -5,7 +5,7 @@ const { validateSignUp } = require("./utils/validation");
 const bcrypt = require("bcrypt");
 
 const app = express();
-
+// changed email for commits
 // Middleware to parse JSON request bodies
 app.use(express.json());
 
